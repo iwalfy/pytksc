@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 import platform
 import threading
 import tkinter
@@ -20,6 +21,9 @@ root = Tk()
 root.title("pytksc")
 
 resize_coof = 2
+
+if sys.argv[1] == "--alternative":
+    use_alt_method = True
 
 def click(event):
     x = event.x * resize_coof
@@ -86,8 +90,13 @@ def swipe(i):
 
 def screenUpdater():
     while True:
-        os.system(_adb_path + " exec-out screencap -p > " + _rundir + "/screen.png")
-        _screen = Image.open(_rundir + "/screen.png")
+        if use_alt_method:
+            os.system(_adb_path + " shell screencap -p /sdcard/screen.png")
+            os.system(_adb_path + " pull /sdcard/screen.png " + _rundir + "/screen.png")
+            _screen = Image.open(_rundir + "/screen.png")
+        else:
+            os.system(_adb_path + " exec-out screencap -p > " + _rundir + "/screen.png")
+            _screen = Image.open(_rundir + "/screen.png")
         _width, _height = _screen.size
 
         _new_width = _width // resize_coof
