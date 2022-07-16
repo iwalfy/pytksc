@@ -22,7 +22,8 @@ root.title("pytksc")
 
 resize_coof = 2
 
-if sys.argv[1] == "--alternative":
+use_alt_method = False
+if len(sys.argv) >= 2 and sys.argv[1] == "--alternative":
     use_alt_method = True
 
 def click(event):
@@ -93,10 +94,10 @@ def screenUpdater():
         if use_alt_method:
             os.system(_adb_path + " shell screencap -p /sdcard/screen.png")
             os.system(_adb_path + " pull /sdcard/screen.png " + _rundir + "/screen.png")
-            _screen = Image.open(_rundir + "/screen.png")
         else:
             os.system(_adb_path + " exec-out screencap -p > " + _rundir + "/screen.png")
-            _screen = Image.open(_rundir + "/screen.png")
+        
+        _screen = Image.open(_rundir + "/screen.png")
         _width, _height = _screen.size
 
         _new_width = _width // resize_coof
