@@ -35,6 +35,13 @@ def click(event):
 def sendButton(key):
     os.system(_adb_path + " shell input keyevent " + key)
 
+def openApp(app):
+    os.system(_adb_path + " shell am start -a  " + app)
+
+def customApp():
+    app = simpledialog.askstring(title="pytksc", prompt="Enter full activity path (e.g. android.settings.SETTINGS):")
+    os.system(_adb_path + " shell am start -a  " + app)
+
 def customButton():
     key = simpledialog.askstring(title="pytksc", prompt="Enter eventkey id:")
     os.system(_adb_path + " shell input keyevent " + key)
@@ -156,6 +163,13 @@ def main():
     resizemenu.add_command(label = "3x", command= lambda: resize(3))
     resizemenu.add_command(label = "4x", command= lambda: resize(4))
     menubar.add_cascade(label="Resize", menu=resizemenu)
+
+    appsmenu = Menu(menubar, tearoff=0)
+    appsmenu.add_command(label = "Settings", command= lambda: openApp("android.settings.SETTINGS"))
+    appsmenu.add_command(label = "Developer Settings", command= lambda: openApp("com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS"))
+    appsmenu.add_separator()
+    appsmenu.add_command(label = "Custom App", command= lambda: customApp())
+    menubar.add_cascade(label="Apps", menu=appsmenu)
 
     root.config(menu=menubar)
     root.bind("<Button-1>", click)
