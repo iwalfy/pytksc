@@ -5,6 +5,7 @@ import platform
 import threading
 import tkinter
 from tkinter import *
+from tkinter import simpledialog
 from PIL import Image, ImageTk
 
 _rundir = os.path.dirname(os.path.realpath(__file__))
@@ -33,6 +34,14 @@ def click(event):
 
 def sendButton(key):
     os.system(_adb_path + " shell input keyevent " + key)
+
+def customButton():
+    key = simpledialog.askstring(title="pytksc", prompt="Enter eventkey id:")
+    os.system(_adb_path + " shell input keyevent " + key)
+
+def sendText():
+    text = simpledialog.askstring(title="pytksc", prompt="Enter text to send:")
+    os.system(_adb_path + " shell input text " + text)
 
 def resize(i):
     listOfGlobals = globals()
@@ -125,6 +134,11 @@ def main():
     buttonmenu.add_command(label = "Home", command= lambda: sendButton("3"))
     buttonmenu.add_command(label = "Menu", command= lambda: sendButton("1"))
     buttonmenu.add_command(label = "Recent", command= lambda: sendButton("187"))
+    buttonmenu.add_separator()
+    buttonmenu.add_command(label = "Unlock", command= lambda: sendButton("82"))
+    buttonmenu.add_command(label = "Custom", command= lambda: customButton())
+    buttonmenu.add_separator()
+    buttonmenu.add_command(label = "String input", command= lambda: sendText())
     menubar.add_cascade(label="Button", menu=buttonmenu)
 
     swipemenu = Menu(menubar, tearoff=0)
