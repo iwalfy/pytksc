@@ -6,3 +6,6 @@ Dependencies:
 * Pillow
 
 ![demo](./demo.gif)
+
+## Example usage
+![example](./example.jpeg)
